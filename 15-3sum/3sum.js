@@ -3,33 +3,28 @@
  * @return {number[][]}
  */
 var threeSum = function(nums) {
- let result = [];
-  nums.sort((a, b) => a - b);
-  for (let i = 0; i < nums.length; i++) {
-    // this check to avoid checking adajacent duplicates again while iterating
-    if (i > 0 && nums[i] === nums[i - 1]) continue;
-    let left = i + 1;
-    let right = nums.length - 1;
+  let result = [];
+    const N = nums.length;
+    nums.sort((a, b) => a - b);
 
-    while (left < right) {
-      if (nums[i] === nums[i - 1]) left++;
+    for(let i = 0; i < N - 2; i++) {
+        if(nums[i] === nums[i - 1] && i > 0) continue;
+        let start = i + 1;
+        let end = N - 1;
+        while(start < end) {
+            const sum = nums[i] + nums[start] + nums[end];
+            if (sum > 0) end--;
+            else if (sum < 0) start++;
+            else {
+                result.push([nums[i], nums[start], nums[end]]);
+                while(start < end && nums[start] === nums[start + 1]) start++;
+                while(start < end && nums[end - 1] === nums[end]) end--;
 
-      let tempSum = nums[i] + nums[left] + nums[right];
-
-      if (tempSum < 0) {
-        left++;
-      } else if (tempSum > 0) {
-        right--;
-      } else {
-        result.push([nums[i], nums[left], nums[right]]);
-        left++;
-        // to check if left pointer is at duplicate number after we found a valid triplet
-        while (nums[left] === nums[left - 1] && left < right) {
-          left++;
+                start++;
+                end--; 
+            }
         }
-      }
     }
-  }
 
-  return result;
+    return result;
 };
