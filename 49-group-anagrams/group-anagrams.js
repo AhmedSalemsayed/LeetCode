@@ -9,7 +9,6 @@ var groupAnagrams = function(strs) {
     for (let c of s) {
       count[c.charCodeAt(0) - "a".charCodeAt(0)] += 1;
     }
-    console.log(count);
     const key = count.join(",");
     if (!res[key]) {
       res[key] = [];
